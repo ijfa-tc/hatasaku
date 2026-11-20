@@ -1,0 +1,564 @@
+<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>body{margin:0}[hidden]{display:none!important}img{max-width:100%}</style></head><body><title>はたさく・やさい れんしゅう</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=BIZ+UDPGothic:wght@400;700&display=swap">
+<style>
+/* Layout: one narrow column like a field notebook; rows of furrow-lines as dividers, big tap targets for phones */
+:root {
+  --bg: #EEF2EA;
+  --surface: #FFFFFF;
+  --ink: #1C2620;
+  --muted: #5A6A5F;
+  --line: #CFD9CC;
+  --accent: #2D6A45;
+  --accent-soft: #DCEBDF;
+  --on-accent: #FFFFFF;
+  --soil: #8A6440;
+  --ok: #1E66A8;
+  --ok-soft: #DFEAF6;
+  --ng: #B83A27;
+  --ng-soft: #F8E1DC;
+  --font: "BIZ UDPGothic", "Hiragino Sans", "Noto Sans JP", system-ui, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #111612; --surface: #1A211C; --ink: #E5ECE5; --muted: #9AAA9E; --line: #2D3A31;
+    --accent: #72BE8E; --accent-soft: #213428; --on-accent: #0E1A12; --soil: #C99C6E;
+    --ok: #7DB6EA; --ok-soft: #1B2B3A; --ng: #F08672; --ng-soft: #3A211C; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #111612; --surface: #1A211C; --ink: #E5ECE5; --muted: #9AAA9E; --line: #2D3A31;
+  --accent: #72BE8E; --accent-soft: #213428; --on-accent: #0E1A12; --soil: #C99C6E;
+  --ok: #7DB6EA; --ok-soft: #1B2B3A; --ng: #F08672; --ng-soft: #3A211C; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font); font-size: 16px; line-height: 1.7; font-weight: 400; }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--surface); }
+button { font: inherit; color: inherit; cursor: pointer; }
+button:focus-visible, input:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--surface); border-bottom: 1px solid var(--line); }
+.top .in { max-width: 680px; margin: 0 auto; display: flex; align-items: center; gap: 10px; min-height: 56px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.top h1 { font-size: 1.05rem; font-weight: 700; margin: 0; flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.back { border: 1px solid var(--line); background: transparent; border-radius: 10px; padding: 6px 12px; font-size: .95rem; }
+main { max-width: 680px; margin: 0 auto; padding-block: 18px 64px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.id { display: block; color: var(--muted); font-size: .85rem; line-height: 1.5; font-family: system-ui, sans-serif; font-weight: 400; }
+h2 { font-size: 1.05rem; margin: 26px 0 10px; display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+h2 .id { display: inline; }
+ruby rt { font-size: .5em; font-weight: 400; letter-spacing: 0; }
+.hero .big { line-height: 1.6; }
+h2 { line-height: 2; }
+/* home */
+.hero { padding: 6px 0 4px; }
+.hero .big { font-size: 1.9rem; font-weight: 700; line-height: 1.25; margin: 0; letter-spacing: .02em; text-wrap: balance; }
+.hero .furrow { height: 10px; margin: 12px 0 6px; background: repeating-linear-gradient(90deg, var(--soil) 0 14px, transparent 14px 22px); opacity: .55; border-radius: 3px; }
+.grid6 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+@media (max-width: 420px) { .grid6 { grid-template-columns: repeat(2, 1fr); } }
+.tile { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 14px 12px; text-align: left; display: flex; flex-direction: column; gap: 2px; min-height: 92px; }
+.tile:hover { border-color: var(--accent); }
+.tile .n { font-size: 1.6rem; font-weight: 700; color: var(--accent); line-height: 1.1; font-variant-numeric: tabular-nums; }
+.tile .l { font-size: .95rem; font-weight: 700; }
+.tile .s { font-size: .82rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+.tile .s.pass { color: var(--ok); }
+.rows { display: flex; flex-direction: column; gap: 10px; }
+.row { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 14px 16px; display: flex; align-items: center; gap: 14px; text-align: left; width: 100%; }
+.row:hover { border-color: var(--accent); }
+.row .t { flex: 1; min-width: 0; font-weight: 700; font-size: 1.02rem; }
+.row .badge { background: var(--ng-soft); color: var(--ng); border-radius: 999px; padding: 2px 10px; font-size: .9rem; font-variant-numeric: tabular-nums; }
+.row .arr { color: var(--muted); }
+/* question card */
+.meta { display: flex; justify-content: space-between; align-items: center; gap: 10px; font-size: .92rem; color: var(--muted); font-variant-numeric: tabular-nums; flex-wrap: wrap; }
+.bar { height: 6px; background: var(--line); border-radius: 3px; overflow: hidden; margin: 8px 0 14px; }
+.bar i { display: block; height: 100%; background: var(--accent); transition: width .2s; }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 18px 18px 16px; }
+.qno { font-weight: 700; color: var(--accent); font-size: 1rem; }
+.qtext { font-size: 1.32rem; line-height: 1.85; margin: 6px 0 12px; word-break: keep-all; overflow-wrap: anywhere; }
+.spk { display: inline-flex; align-items: center; gap: 6px; border: 1px solid var(--line); background: var(--bg); border-radius: 999px; padding: 6px 14px; font-size: .95rem; }
+.spk svg { width: 18px; height: 18px; }
+.spk.on { background: var(--accent-soft); border-color: var(--accent); }
+.tf { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 14px; }
+.opt { border: 2px solid var(--line); background: var(--surface); border-radius: 14px; padding: 14px 10px; font-size: 1.15rem; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 8px; min-height: 64px; }
+.opt .mk { font-size: 1.5rem; line-height: 1; }
+.opt.sel { border-color: var(--accent); background: var(--accent-soft); }
+.opt.right { border-color: var(--ok); background: var(--ok-soft); }
+.opt.wrong { border-color: var(--ng); background: var(--ng-soft); }
+.opt:disabled { cursor: default; }
+.choices { display: flex; flex-direction: column; gap: 10px; margin-top: 14px; }
+.choices .opt { justify-content: flex-start; text-align: left; font-size: 1.05rem; min-height: 56px; padding: 12px 14px; word-break: keep-all; overflow-wrap: anywhere; }
+.nav { display: flex; justify-content: space-between; gap: 10px; margin-top: 14px; }
+.btn { border: 1px solid var(--line); background: var(--surface); border-radius: 12px; padding: 10px 18px; font-weight: 700; }
+.btn.pri { background: var(--accent); color: var(--on-accent); border-color: var(--accent); }
+.btn.wide { width: 100%; padding: 14px; font-size: 1.05rem; }
+.btn:disabled { opacity: .4; cursor: default; }
+.dots { display: grid; grid-template-columns: repeat(10, 1fr); gap: 6px; margin-top: 18px; }
+.dot { aspect-ratio: 1; max-width: 100%; border: 1px solid var(--line); background: var(--surface); border-radius: 8px; font-size: .82rem; font-variant-numeric: tabular-nums; padding: 0; }
+.dot.done { background: var(--accent-soft); border-color: var(--accent); }
+.dot.now { outline: 2px solid var(--ink); outline-offset: 1px; }
+.toggle { display: inline-flex; align-items: center; gap: 8px; border: none; background: none; padding: 4px 0; font-size: .92rem; color: var(--muted); }
+.toggle .sw { width: 38px; height: 22px; border-radius: 11px; background: var(--line); position: relative; flex: none; }
+.toggle .sw::after { content: ""; position: absolute; top: 3px; left: 3px; width: 16px; height: 16px; border-radius: 50%; background: var(--surface); transition: left .15s; }
+.toggle.on .sw { background: var(--accent); }
+.toggle.on .sw::after { left: 19px; }
+.confirm { margin-top: 12px; background: var(--surface); border: 1px solid var(--ng); border-radius: 12px; padding: 12px 14px; display: flex; flex-direction: column; gap: 10px; }
+.confirm .bt { display: flex; gap: 10px; flex-wrap: wrap; }
+/* feedback & explanation */
+.fb { margin-top: 14px; border-radius: 14px; padding: 14px 16px; background: var(--surface); border: 1px solid var(--line); }
+.fb .v { font-weight: 700; font-size: 1.15rem; }
+.fb .v.ok { color: var(--ok); } .fb .v.ng { color: var(--ng); }
+.ex { margin-top: 6px; display: flex; flex-direction: column; gap: 4px; }
+.ex .k { color: var(--muted); font-size: .85rem; margin-right: 6px; }
+.ex p { margin: 0; word-break: keep-all; overflow-wrap: anywhere; }
+.idbox { margin-top: 8px; padding-top: 8px; border-top: 1px dashed var(--line); }
+/* result */
+.score { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 18px; display: flex; flex-wrap: wrap; gap: 6px 22px; align-items: center; }
+.score .num { font-size: 3.2rem; font-weight: 700; line-height: 1; font-variant-numeric: tabular-nums; }
+.score .num small { font-size: 1.4rem; color: var(--muted); }
+.score .side { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.chip { display: inline-block; border-radius: 999px; padding: 3px 12px; font-weight: 700; font-size: .95rem; }
+.chip.ok { background: var(--ok-soft); color: var(--ok); }
+.chip.ng { background: var(--ng-soft); color: var(--ng); }
+.actions { display: flex; flex-direction: column; gap: 10px; margin-top: 14px; }
+.namebox { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.namebox label { font-weight: 700; }
+.namebox input { flex: 1; min-width: 0; font: inherit; font-size: 1.05rem; padding: 10px 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); color: var(--ink); }
+.seg { display: inline-flex; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+.seg button { border: none; background: var(--surface); padding: 6px 14px; font-size: .92rem; }
+.seg button.on { background: var(--accent); color: var(--on-accent); }
+.rlist { display: flex; flex-direction: column; gap: 10px; margin-top: 10px; }
+.ritem { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 14px 16px; display: grid; grid-template-columns: 34px 1fr; gap: 4px 10px; }
+.ritem .mk { font-size: 1.6rem; font-weight: 700; line-height: 1.1; text-align: center; }
+.ritem .mk.ok { color: var(--ok); } .ritem .mk.ng { color: var(--ng); }
+.ritem .body { min-width: 0; }
+.ritem .q { font-size: 1.08rem; margin: 0 0 4px; word-break: keep-all; overflow-wrap: anywhere; }
+.ritem .ans { font-size: .92rem; color: var(--muted); }
+.ritem .ans b { color: var(--ink); }
+.ritem.ng { border-color: var(--ng); }
+.preview { margin-top: 12px; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; background: #fff; }
+.preview img { display: block; width: 100%; }
+.note { font-size: .88rem; color: var(--muted); }
+/* word cards */
+.chips { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 6px; margin: 0 0 12px; scrollbar-width: thin; }
+.chips button { flex: none; border: 1px solid var(--line); background: var(--surface); border-radius: 999px; padding: 6px 14px; font-size: .92rem; white-space: nowrap; }
+.chips button.on { background: var(--accent); color: var(--on-accent); border-color: var(--accent); }
+.wcard { background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 26px 20px; min-height: 260px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 12px; width: 100%; }
+.wcard .w { font-size: 2rem; font-weight: 700; line-height: 1.3; word-break: keep-all; overflow-wrap: anywhere; }
+.wcard .d { font-size: 1.1rem; word-break: keep-all; overflow-wrap: anywhere; }
+.wcard .hint { color: var(--muted); font-size: .9rem; }
+.wcard .id { font-size: 1rem; }
+.empty { background: var(--surface); border: 1px dashed var(--line); border-radius: 14px; padding: 22px; text-align: center; }
+.rec { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.rec .dt { font-variant-numeric: tabular-nums; color: var(--muted); font-size: .9rem; }
+.rec .nm { flex: 1; min-width: 120px; font-weight: 700; }
+.rec .sc { font-variant-numeric: tabular-nums; font-weight: 700; }
+.danger { color: var(--ng); border-color: var(--ng); }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+
+<div class="top"><div class="in">
+  <button class="back" id="back" data-act="home" hidden>← もどる</button>
+  <h1 id="ttl">はたさく・やさい れんしゅう</h1>
+</div></div>
+<main id="app"></main>
+
+<script>
+const Q=[[1,1,"にほんで たべる こむぎは、ゆにゅうひんが おおいです。","","こむぎは、ほとんどを がいこくから かっています。","Sebagian besar gandum yang dimakan di Jepang adalah barang impor.","Sebagian besar gandum yang dimakan di Jepang adalah barang impor."],[1,0,"にほんは、おんたいきこうの ところが すくないです。","「すくない」→「おおい」","にほんは、おんたいきこうの ところが おおいです。","Sebagian besar wilayah Jepang beriklim sedang.","Di Jepang, daerah beriklim sedang sedikit."],[1,1,"にほんは、やまが おおくて、のうちが すくないです。","","にほんは やまが おおく、のうちは こくどの やく 1わりです。","Jepang banyak gunung dan sedikit lahan pertanian.","Jepang banyak gunung dan sedikit lahan pertanian."],[2,0,"にほんの へいちの ほとんどが のうちです。","「ほとんどが のうち」→「おおくは まちや いえ」","にほんの へいちの おおくは、まちや いえです。","Sebagian besar dataran di Jepang dipakai untuk kota dan perumahan.","Sebagian besar dataran di Jepang adalah lahan pertanian."],[2,1,"にほんには、4つの きせつが あります。","","はる・なつ・あき・ふゆの しきが あります。","Di Jepang ada empat musim.","Di Jepang ada empat musim."],[2,0,"にほんで たべる だいずは、ほとんどが こくさんです。","「こくさん」→「ゆにゅうひん」","にほんで たべる だいずは、ほとんどが ゆにゅうひんです。","Sebagian besar kedelai yang dimakan di Jepang adalah barang impor.","Sebagian besar kedelai yang dimakan di Jepang adalah produksi dalam negeri."],[3,1,"にほんの こくどは、なんぼくに ながく のびています。","","にほんは、きたから みなみまで ながい くにです。","Wilayah Jepang membentang panjang dari utara ke selatan.","Wilayah Jepang membentang panjang dari utara ke selatan."],[3,0,"にほんでは、コメの しょうひりょうが まいとし ふえています。","「ふえています」→「へっています」","にほんでは、コメの しょうひりょうが まいとし へっています。","Di Jepang, konsumsi beras menurun setiap tahun.","Di Jepang, konsumsi beras meningkat setiap tahun."],[3,0,"ウンシュウミカンは、さむい ちいきで おおく さいばいされています。","「さむい」→「あたたかい」","ウンシュウミカンは、あたたかい ちいきで おおく さいばいされています。","Jeruk unshu banyak ditanam di daerah yang hangat.","Jeruk unshu banyak ditanam di daerah yang dingin."],[4,0,"にほんは、やまが すくなくて、のうちが おおいです。","「やまが すくなく」「のうちが おおい」が はんたい","にほんは、やまが おおくて、のうちが すくないです。","Jepang banyak gunung dan sedikit lahan pertanian.","Jepang sedikit gunung dan banyak lahan pertanian."],[4,1,"にほんで さいばいされている イネは、ほとんどが ジャポニカです。","","にほんの イネは、ほとんどが ジャポニカです。","Padi yang ditanam di Jepang hampir semuanya jenis japonica.","Padi yang ditanam di Jepang hampir semuanya jenis japonica."],[4,0,"にほんでは、おなじ やさいを 1ねんじゅう せいさんする ことは できません。","「できません」→「できます」","しせつさいばいで、おなじ やさいを 1ねんじゅう せいさんできます（しゅうねんさいばい）。","Di Jepang, sayuran yang sama bisa diproduksi sepanjang tahun.","Di Jepang, sayuran yang sama tidak bisa diproduksi sepanjang tahun."],[5,1,"にほんの こくどの やく 7わりは、やまや おかです。","","にほんの こくどは、やまや おかが おおいです。","Sekitar 70% wilayah Jepang adalah gunung dan bukit.","Sekitar 70% wilayah Jepang adalah gunung dan bukit."],[5,0,"にほんの きこうは、きたでも みなみでも おなじです。","「おなじ」→「ちがう」","にほんの きこうは、きたと みなみで ちがいます。","Iklim Jepang berbeda antara utara dan selatan.","Iklim Jepang sama di utara dan di selatan."],[5,1,"リンゴは、さむい ちいきで おおく さいばいされています。","","リンゴは さむい ちいき、ミカンは あたたかい ちいきです。","Apel banyak ditanam di daerah yang dingin.","Apel banyak ditanam di daerah yang dingin."],[6,0,"ほっかいどうは、おきなわより あたたかいです。","「あたたかい」→「さむい」","ほっかいどうは、おきなわより さむいです。","Hokkaido lebih dingin daripada Okinawa.","Hokkaido lebih hangat daripada Okinawa."],[6,1,"にほんでは、やさいの ろじさいばいの ほかに、ビニールハウスなどの しせつさいばいも さかんです。","","ろじさいばいも しせつさいばいも さかんです。","Di Jepang, selain budidaya di lahan terbuka, budidaya di rumah plastik juga banyak.","Di Jepang, selain budidaya di lahan terbuka, budidaya di rumah plastik juga banyak."],[6,0,"にほんで たべる こむぎは、ほとんどが こくさんです。","「こくさん」→「ゆにゅうひん」","にほんで たべる こむぎは、ゆにゅうひんが おおいです。","Sebagian besar gandum yang dimakan di Jepang adalah barang impor.","Sebagian besar gandum yang dimakan di Jepang adalah produksi dalam negeri."],[1,0,"はなは、えいようきかんです。","「えいようきかん」→「せいしょくきかん」","はなと みは、せいしょくきかんです。は・くき・ねが えいようきかんです。","Bunga adalah organ reproduksi.","Bunga adalah organ vegetatif."],[1,1,"しゅし（たね）は、ていおん・かんそうじょうけんで ほぞん します。","","たねは、ひくい おんどで、かわいた ところに ほぞん します。","Benih disimpan pada suhu rendah dan kering.","Benih disimpan pada suhu rendah dan kering."],[2,1,"さくもつは、ねから、ようぶんや すいぶんを きゅうしゅう します。","","ねは、ようぶんと すいぶんを きゅうしゅう します。","Tanaman menyerap nutrisi dan air dari akar.","Tanaman menyerap nutrisi dan air dari akar."],[2,0,"たねが めを だす とき、みずは ひつよう ありません。","「ひつよう ありません」→「ひつようです」","はつがには、みず・おんど・さんそが ひつようです。","Benih membutuhkan air untuk berkecambah.","Saat benih berkecambah, tidak perlu air."],[3,1,"は、くき、ねは、えいようきかんです。","","は・くき・ねは えいようきかん、はな・みは せいしょくきかんです。","Daun, batang, dan akar adalah organ vegetatif.","Daun, batang, dan akar adalah organ vegetatif."],[3,0,"こうごうせいには、ひかりは ひつよう ありません。","「ひつよう ありません」→「ひつようです」","こうごうせいには、ひかり・みず・にさんかたんそが ひつようです。","Fotosintesis membutuhkan cahaya.","Fotosintesis tidak membutuhkan cahaya."],[4,1,"たねが めを だすには、みず・おんど・さんそが ひつようです。","","「はつがの 3じょうけん」です。","Untuk berkecambah, benih membutuhkan air, suhu, dan oksigen.","Untuk berkecambah, benih membutuhkan air, suhu, dan oksigen."],[4,0,"ダイコンや トマトの たねは、ひかりが あたると めが でやすいです。","「ダイコン・トマト」→「ニンジン・レタス」","ひかりで めが でやすいのは、ニンジンや レタスの たねです。","Benih yang mudah berkecambah jika terkena cahaya adalah wortel dan selada.","Benih lobak dan tomat mudah berkecambah jika terkena cahaya."],[5,1,"しょくぶつは、こうごうせいで、みずと にさんかたんそから でんぷんなどを つくります。","","みずと にさんかたんそを つかって、でんぷんを つくります。","Tanaman membuat pati dari air dan karbon dioksida melalui fotosintesis.","Tanaman membuat pati dari air dan karbon dioksida melalui fotosintesis."],[5,0,"たねは、あたたかくて、しめった ところで ほぞん します。","「あたたかくて しめった」→「ひくい おんどで かわいた」","たねは、ていおん・かんそうじょうけんで ほぞん します。","Benih disimpan di tempat bersuhu rendah dan kering.","Benih disimpan di tempat yang hangat dan lembap."],[6,1,"ニンジンや レタスの たねは、ひかりが あたると めが でやすいです。","","めいはつがしゅしです。ふくどは うすく します。","Benih wortel dan selada mudah berkecambah jika terkena cahaya.","Benih wortel dan selada mudah berkecambah jika terkena cahaya."],[6,1,"みずを やりすぎると、さんそが たりなくなり、めが でにくく なります。","","はつがには さんそも ひつようです。","Jika terlalu banyak air, oksigen kurang dan benih sulit berkecambah.","Jika terlalu banyak air, oksigen kurang dan benih sulit berkecambah."],[1,1,"ダイコンは、じかまきさいばいを します。","","ダイコンは、はたけに ちょくせつ たねを まきます。","Lobak ditanam dengan menabur benih langsung.","Lobak ditanam dengan menabur benih langsung."],[1,0,"タマネギは、じかまきさいばいを します。","「じかまき」→「いしょく」","タマネギは、いしょくさいばいを します。","Bawang bombay ditanam dengan tanam pindah.","Bawang bombay ditanam dengan menabur benih langsung."],[1,0,"サツマイモは、ひりょうが おおいほど、イモが おおきく なります。","「おおいほど おおきく なります」→「おおすぎると おおきく なりません」","ひりょうが おおすぎると、はや くきが おおきく なり、イモは おおきく なりません。","Jika pupuk terlalu banyak, ubi jalar tidak membesar.","Semakin banyak pupuk, ubi jalar semakin besar."],[2,1,"ダイコンは、こんさいるいです。","","ねを たべる やさいです。","Lobak termasuk sayuran umbi/akar.","Lobak termasuk sayuran umbi/akar."],[2,0,"トマトは、ようけいさいるいです。","「ようけいさいるい」→「かさいるい」","トマトは、みを たべる かさいるいです。","Tomat termasuk sayuran buah.","Tomat termasuk sayuran daun dan batang."],[2,1,"トマトは、わきめが たくさん でるので、わきめかきを します。","","わきめは ちいさい うちに とります。","Tomat banyak tunas samping, jadi tunas samping dibuang.","Tomat banyak tunas samping, jadi tunas samping dibuang."],[3,1,"ナスは、うえかえさいばいを します。","","なえを そだててから はたけに うえます（いしょく）。","Terong ditanam dengan tanam pindah.","Terong ditanam dengan tanam pindah."],[3,0,"キャベツは、こんさいるいです。","「こんさいるい」→「ようけいさいるい」","キャベツは、はを たべる ようけいさいるいです。","Kubis termasuk sayuran daun dan batang.","Kubis termasuk sayuran umbi/akar."],[3,1,"つぎきなえを つかうと、びょうきに つよく なり、しゅうかくりょうが ふえます。","","トマト・ナス・キュウリで つかいます。","Bibit sambung lebih tahan penyakit dan hasil panen meningkat.","Bibit sambung lebih tahan penyakit dan hasil panen meningkat."],[4,1,"キュウリは、ウリかの かさいるいです。","","みを たべる やさいです。","Mentimun adalah sayuran buah dari famili labu-labuan.","Mentimun adalah sayuran buah dari famili labu-labuan."],[4,0,"ジャガイモは、ウリかです。","「ウリか」→「ナスか」","ジャガイモは、ナスかです。","Kentang termasuk famili terong-terongan.","Kentang termasuk famili labu-labuan."],[4,1,"ナスは、さいばいきかんが ながいので、じゅうぶんな ひりょうが ひつようです。","","ながく しゅうかく するので、ひりょうが たくさん ひつようです。","Terong ditanam lama, jadi butuh cukup pupuk.","Terong ditanam lama, jadi butuh cukup pupuk."],[5,1,"ピーマンは、ナスかです。","","トマト・ナス・ピーマン・ジャガイモは ナスかです。","Paprika termasuk famili terong-terongan.","Paprika termasuk famili terong-terongan."],[5,0,"キャベツは、あつい きこうで よく そだちます。","「あつい」→「すずしい」","キャベツは、すずしい きこうで よく そだちます。","Kubis tumbuh baik di iklim sejuk.","Kubis tumbuh baik di iklim panas."],[5,1,"ニンジンは、じかまきさいばいを します。","","ニンジンは、はたけに ちょくせつ たねを まきます。","Wortel ditanam dengan menabur benih langsung.","Wortel ditanam dengan menabur benih langsung."],[6,1,"ホウレンソウは、ようけいさいるいです。","","はを たべる やさいです。","Bayam termasuk sayuran daun dan batang.","Bayam termasuk sayuran daun dan batang."],[6,0,"キュウリは、ろじさいばいだけで、しせつさいばいは しません。","「しません」→「します」","キュウリは、しせつさいばいも して、1ねんじゅう しゅうかく されています。","Mentimun juga ditanam di rumah plastik dan dipanen sepanjang tahun.","Mentimun hanya ditanam di lahan terbuka, tidak di rumah plastik."],[6,0,"ダイコンは、かさいるいです。","「かさいるい」→「こんさいるい」","ダイコンは、ねを たべる こんさいるいです。","Lobak termasuk sayuran umbi/akar.","Lobak termasuk sayuran buah."],[1,0,"れんさくは、おなじ はたけで、ちがう さくもつを つづけて さいばい する ことです。","「ちがう」→「おなじ」","れんさくは、おなじ はたけで、おなじ さくもつを つづけて さいばい する ことです。","Rensaku adalah menanam tanaman yang sama terus-menerus di ladang yang sama.","Rensaku adalah menanam tanaman yang berbeda terus-menerus di ladang yang sama."],[1,1,"こううんを します。つちの つうきせいが よく なります。","","つちを ほりかえすと、やわらかく なり、くうきが はいります。","Jika tanah dibajak, aerasi tanah menjadi baik.","Jika tanah dibajak, aerasi tanah menjadi baik."],[1,1,"ていしょくとは、はたけに なえを うえる さぎょうです。","","そだてた なえを はたけに うえる ことです。","Teishoku adalah pekerjaan menanam bibit di ladang.","Teishoku adalah pekerjaan menanam bibit di ladang."],[1,0,"さくもつの うえから みずを かける ほうほうを、かぶもとかんすいと いいます。","「かぶもとかんすい」→「とうじょうかんすい」","うえから みずを かけるのは、とうじょうかんすいです。","Menyiram dari atas tanaman disebut penyiraman atas (tōjō-kansui).","Menyiram dari atas tanaman disebut kabumoto-kansui (penyiraman di pangkal)."],[2,1,"れんさくとは、おなじ はたけで おなじ さくもつを つづけて つくる ことです。","","ちがう さくもつを じゅんばんに つくるのは りんさくです。","Rensaku adalah menanam tanaman yang sama terus-menerus di ladang yang sama.","Rensaku adalah menanam tanaman yang sama terus-menerus di ladang yang sama."],[2,0,"こううんを します。つちが かたく なります。","「かたく」→「やわらかく」","こううんを すると、つちが やわらかく なります。","Jika tanah dibajak, tanah menjadi gembur.","Jika tanah dibajak, tanah menjadi keras."],[2,0,"せいしは、さくもつに みずを やる ことです。","「せいし」→「かんすい」","みずを やるのは かんすいです。せいしは、えだを きって かたちを ととのえる ことです。","Seishi adalah memangkas cabang untuk merapikan bentuk tanaman.","Seishi adalah menyiram tanaman."],[2,1,"まびきとは、そだてる なえを えらんで のこし、ほかの なえを ぬく ことです。","","よい なえを のこします。","Mabiki adalah memilih bibit yang ditinggalkan dan mencabut yang lain.","Mabiki adalah memilih bibit yang ditinggalkan dan mencabut yang lain."],[3,1,"かぶもとかんすいは、さくもつの かぶの もとに みずを やる ほうほうです。","","うえから かけるのは とうじょうかんすいです。","Kabumoto-kansui adalah menyiram di pangkal tanaman.","Kabumoto-kansui adalah menyiram di pangkal tanaman."],[3,1,"うねたては、はたけの つちを たかく もって、うねを つくる さぎょうです。","","たねまきや ていしょくの まえに します。","Membuat bedengan adalah meninggikan tanah ladang.","Membuat bedengan adalah meninggikan tanah ladang."],[3,0,"ニンジンの たねを まいた あとは、ふくどを あつく します。","「あつく」→「うすく」","ニンジンは めいはつがしゅしなので、ふくどを うすく します。","Setelah menabur benih wortel, tanah penutupnya dibuat tipis.","Setelah menabur benih wortel, tanah penutupnya dibuat tebal."],[3,0,"いくびょうとは、なえを しゅうかく する ことです。","「しゅうかく する」→「そだてる」","いくびょうとは、なえを そだてる ことです。","Ikubyō adalah menyemai/membesarkan bibit.","Ikubyō adalah memanen bibit."],[4,1,"かんすいは、さくもつに みずを やる ことです。","","ほうほうには、かぶもとかんすいや とうじょうかんすいが あります。","Kansui adalah menyiram tanaman.","Kansui adalah menyiram tanaman."],[4,1,"まいた たねの うえに、うすく つちを かける ことを ふくどと いいます。","","たねを まいた あとに します。","Menutup benih dengan tanah tipis disebut fukudo.","Menutup benih dengan tanah tipis disebut fukudo."],[4,0,"れんさくしょうがいは、おなじ はたけで ちがう さくもつを つづけて つくると おこります。","「ちがう」→「おなじ」","れんさくしょうがいは、おなじ さくもつを つづけて つくると おこります。","Gangguan penanaman berulang terjadi jika tanaman yang sama ditanam terus-menerus.","Gangguan penanaman berulang terjadi jika tanaman yang berbeda ditanam terus-menerus di ladang yang sama."],[4,0,"てんまきは、うね ぜんたいに たねを まく ほうほうです。","「てんまき」→「ばらまき」","うね ぜんたいに まくのは ばらまきです。てんまきは、1かしょに すうつぶずつ まきます。","Tenmaki adalah menabur beberapa biji di satu titik dengan jarak tertentu.","Tenmaki adalah menabur benih di seluruh bedengan."],[5,1,"りんさくとは、おなじ はたけで ちがう さくもつを じゅんばんに つくる ことです。","","れんさくしょうがいを ふせぎます。","Rinsaku adalah menanam tanaman yang berbeda secara bergiliran di ladang yang sama.","Rinsaku adalah menanam tanaman yang berbeda secara bergiliran di ladang yang sama."],[5,1,"れんさくしょうがいが おこると、びょうきや がいちゅうが ふえ、しゅうかくりょうが へります。","","れんさくを すると おこります。","Jika terjadi gangguan penanaman berulang, penyakit dan hama bertambah dan hasil panen berkurang.","Jika terjadi gangguan penanaman berulang, penyakit dan hama bertambah dan hasil panen berkurang."],[5,1,"じかまきとは、はたけに ちょくせつ たねを まく ことです。","","なえを そだてて うえるのは いしょくです。","Jikamaki adalah menabur benih langsung di ladang.","Jikamaki adalah menabur benih langsung di ladang."],[5,0,"マルチングは、つちを かんそうさせる ために おこないます。","「かんそうさせる」→「かんそうを ふせぐ」","マルチングは、つちの かんそうや ざっそうを ふせぎます。","Mulsa dilakukan untuk mencegah tanah menjadi kering.","Mulsa dilakukan untuk membuat tanah kering."],[6,1,"すじまきは、うねに 1れつに たねを まく ほうほうです。","","ニンジンなどで します。","Sujimaki adalah menabur benih dalam satu baris di bedengan.","Sujimaki adalah menabur benih dalam satu baris di bedengan."],[6,1,"マルチングとは、つちの うえを プラスチックフィルムなどで おおう ことです。","","わらで おおう ことも あります。","Mulsa adalah menutup permukaan tanah dengan film plastik dan lain-lain.","Mulsa adalah menutup permukaan tanah dengan film plastik dan lain-lain."],[6,1,"いくびょうとは、なえを そだてる ことです。","","そだてた なえを はたけに うえるのが ていしょくです。","Ikubyō adalah menyemai/membesarkan bibit.","Ikubyō adalah menyemai/membesarkan bibit."],[6,0,"うねたては、たねを まいた あとに おこないます。","「あと」→「まえ」","うねたては、たねを まく まえに おこないます。","Bedengan dibuat sebelum menabur benih.","Bedengan dibuat setelah menabur benih."],[1,1,"なたねかすは、ゆうきしつひりょうです。","","なたねかす・さかなかす・こっぷん・たいひは ゆうきしつひりょうです。","Ampas biji rapa adalah pupuk organik.","Ampas biji rapa adalah pupuk organik."],[1,0,"ひりょうの 3ようそとは、りゅうさん、リン、カリウムです。","「りゅうさん」→「ちっそ」","ひりょうの 3ようそは、ちっそ、リン、カリウムです。","Tiga unsur utama pupuk adalah nitrogen, fosfor, dan kalium.","Tiga unsur utama pupuk adalah asam sulfat, fosfor, dan kalium."],[1,1,"せっかいは、つち（どじょう）の かいりょうに つかいます。","","さんせいの つちを なおします。","Kapur digunakan untuk memperbaiki tanah.","Kapur digunakan untuk memperbaiki tanah."],[2,0,"なたねかすは、かがくひりょうです。","「かがくひりょう」→「ゆうきしつひりょう」","なたねかすは、ゆうきしつひりょうです。","Ampas biji rapa adalah pupuk organik.","Ampas biji rapa adalah pupuk kimia."],[2,1,"ついひとは、なえを うえた あとに、つちに まく ひりょうです。","","うえる まえに まくのは もとごえです。","Pupuk susulan adalah pupuk yang diberikan setelah bibit ditanam.","Pupuk susulan adalah pupuk yang diberikan setelah bibit ditanam."],[2,1,"すいぶんが たりないと、さくもつは しおれます。","","みずが たりないと、ようぶんも たりなく なります。","Jika kekurangan air, tanaman menjadi layu.","Jika kekurangan air, tanaman menjadi layu."],[3,1,"ひりょうの 3ようそとは、ちっそ、リン、カリウムです。","","N・P・Kです。","Tiga unsur utama pupuk adalah nitrogen, fosfor, dan kalium.","Tiga unsur utama pupuk adalah nitrogen, fosfor, dan kalium."],[3,0,"ついひとは、なえを うえる まえに、つちに まく ひりょうです。","「うえる まえ」→「うえた あと」","うえる まえに まくのは もとごえです。ついひは、うえた あとです。","Pupuk susulan diberikan setelah bibit ditanam.","Pupuk susulan adalah pupuk yang diberikan sebelum bibit ditanam."],[3,1,"すいぶんが おおすぎると、ねが くさる ことが あります。","","みずが おおすぎると、さんそが たりなく なります。","Jika air terlalu banyak, akar bisa membusuk.","Jika air terlalu banyak, akar bisa membusuk."],[4,1,"もとごえとは、なえを うえる まえに、つちに まく ひりょうです。","","うえた あとに やるのは ついひです。","Pupuk dasar adalah pupuk yang diberikan sebelum bibit ditanam.","Pupuk dasar adalah pupuk yang diberikan sebelum bibit ditanam."],[4,0,"りゅうあんは、ゆうきしつひりょうです。","「ゆうきしつひりょう」→「かがくひりょう」","りゅうあんは、かがくひりょうです。","Amonium sulfat adalah pupuk kimia.","Amonium sulfat adalah pupuk organik."],[4,1,"たいひを いれると、つちが やわらかく なります。","","たいひは ゆうきしつひりょうで、つちづくりに つかいます。","Jika kompos dimasukkan, tanah menjadi gembur.","Jika kompos dimasukkan, tanah menjadi gembur."],[5,0,"もとごえは、さくもつの せいいくに あわせて くわえる ひりょうです。","「もとごえ」→「ついひ」","せいいくに あわせて くわえるのは ついひです。もとごえは、うえる まえです。","Pupuk yang ditambahkan sesuai pertumbuhan adalah pupuk susulan.","Pupuk dasar adalah pupuk yang ditambahkan sesuai pertumbuhan tanaman."],[5,1,"こっぷんは、ゆうきしつひりょうです。","","ほねから つくった ひりょうです。","Tepung tulang adalah pupuk organik.","Tepung tulang adalah pupuk organik."],[5,0,"すいぶんが おおすぎても、ねは くさりません。","「くさりません」→「くさる ことが あります」","すいぶんが おおすぎると、ねが くさる ことが あります。","Jika air terlalu banyak, akar bisa membusuk.","Walaupun air terlalu banyak, akar tidak membusuk."],[6,0,"さかなかすは、かがくひりょうです。","「かがくひりょう」→「ゆうきしつひりょう」","さかなかすは、ゆうきしつひりょうです。","Ampas ikan adalah pupuk organik.","Ampas ikan adalah pupuk kimia."],[6,1,"さんせいの つちには、せっかいを まいて なおします。","","せっかいは、つちの かいりょうに つかいます。","Tanah asam diperbaiki dengan menabur kapur.","Tanah asam diperbaiki dengan menabur kapur."],[6,0,"ひりょうは、おおければ おおいほど、さくもつは よく そだちます。","「おおければ おおいほど」が まちがい","ひりょうは、てきとうな りょうを やります。おおすぎると よく ありません。","Pupuk diberikan dalam jumlah yang tepat. Terlalu banyak tidak baik.","Semakin banyak pupuk, tanaman semakin tumbuh baik."],[1,0,"さっちゅうざいで、ざっそうを ぼうじょ します。","「さっちゅうざい」→「じょそうざい」","ざっそうは じょそうざいで ぼうじょ します。さっちゅうざいは がいちゅうです。","Gulma dikendalikan dengan herbisida.","Gulma dikendalikan dengan insektisida."],[1,1,"のうやくを つかった とき、きろく します。","","のうやくの しようぼに きろく します。","Saat menggunakan pestisida, dicatat.","Saat menggunakan pestisida, dicatat."],[1,1,"けいゆは、トラクターの ねんりょうに つかいます。","","くさかりきは こんごうゆです。","Solar digunakan sebagai bahan bakar traktor.","Solar digunakan sebagai bahan bakar traktor."],[2,1,"じょそうざいは、ざっそうを ぼうじょ します。","","じょそうざい＝ざっそう、さっちゅうざい＝がいちゅう、さっきんざい＝びょうき。","Herbisida mengendalikan gulma.","Herbisida mengendalikan gulma."],[2,0,"Tシャツ すがたで のうやくを まいても もんだい ありません。","「もんだい ありません」→「いけません」","のうやくを まく ときは、ぼうじょい・マスク・てぶくろ・ゴーグルを つけます。","Saat menyemprot pestisida, harus memakai baju pelindung, masker, sarung tangan, dan kacamata.","Tidak masalah menyemprot pestisida hanya dengan memakai kaos."],[2,1,"きかいに ねんりょうを いれる ときは、エンジンを とめます。","","ひの ちかくでは きゅうゆ しません。","Saat mengisi bahan bakar mesin, mesin dimatikan.","Saat mengisi bahan bakar mesin, mesin dimatikan."],[3,0,"おなじ さっちゅうざいを なんかいも つかうと、こうかが あがります。","「あがります」→「さがります」","おなじ さっちゅうざいを つづけて つかうと、きかなく なります。","Jika insektisida yang sama digunakan berulang kali, efektivitasnya menurun.","Jika insektisida yang sama digunakan berulang kali, efektivitasnya meningkat."],[3,1,"さっきんざいは、びょうきから さくもつを まもる ために つかいます。","","がいちゅうには さっちゅうざいを つかいます。","Fungisida digunakan untuk melindungi tanaman dari penyakit.","Fungisida digunakan untuk melindungi tanaman dari penyakit."],[3,1,"ガソリンは ひが つきやすいので、ひの ちかくで きゅうゆ しません。","","ガソリンは きんぞくの ようきで ほぞん します。","Bensin mudah terbakar, jadi tidak mengisi bahan bakar di dekat api.","Bensin mudah terbakar, jadi tidak mengisi bahan bakar di dekat api."],[4,0,"かぜが つよい ときに、のうやくを まきます。","「つよい ときに まきます」→「よわい ひに まきます」","のうやくは、かぜが よわい ひに まきます。かぜが つよい ときは やめます。","Pestisida disemprot pada hari yang anginnya lemah.","Pestisida disemprot saat angin kencang."],[4,1,"きかいを つかう ときは、さぎょうの まえに、つかいかたを よく りかい します。","","あんぜんの ために たいせつです。","Sebelum bekerja, pahami cara menggunakan mesin dengan baik.","Sebelum bekerja, pahami cara menggunakan mesin dengan baik."],[4,0,"ガソリンは、とうゆようの ポリようきに いれて ほぞん します。","「ポリようき」→「きんぞくの ようき」","ガソリンは、きんぞくの ようきで ほぞん します。","Bensin disimpan dalam wadah logam.","Bensin disimpan dalam wadah plastik untuk minyak tanah."],[5,0,"さっちゅうざいは、びょうきから さくもつを まもる ために つかいます。","「さっちゅうざい」→「さっきんざい」","びょうきには さっきんざいを つかいます。さっちゅうざいは がいちゅうです。","Untuk penyakit digunakan fungisida. Insektisida untuk hama.","Insektisida digunakan untuk melindungi tanaman dari penyakit."],[5,1,"のうやくを まいた あとは、きぐを よく あらいます。","","てあらいや うがいも します。","Setelah menyemprot pestisida, alat dicuci dengan baik.","Setelah menyemprot pestisida, alat dicuci dengan baik."],[5,0,"くさかりきの ねんりょうは、けいゆです。","「けいゆ」→「こんごうゆ」","くさかりきの ねんりょうは、ガソリンと オイルの こんごうゆです。","Bahan bakar mesin pemotong rumput adalah bensin campur oli.","Bahan bakar mesin pemotong rumput adalah solar."],[6,0,"きかいの てんけんは、エンジンを かけたまま おこないます。","「かけたまま」→「とめて」","きかいの てんけんは、エンジンを とめて おこないます。","Pemeriksaan mesin dilakukan setelah mesin dimatikan.","Pemeriksaan mesin dilakukan dengan mesin tetap menyala."],[6,1,"のうやくを まく ときは、マスクや ゴムてぶくろを つけます。","","ぐんては ぬれるので つかいません。","Saat menyemprot pestisida, pakai masker dan sarung tangan karet.","Saat menyemprot pestisida, pakai masker dan sarung tangan karet."],[6,0,"ぬれた てで、でんきの プラグを さわっても だいじょうぶです。","「だいじょうぶ」→「あぶない」","ぬれた てで プラグを さわると、かんでんします。","Menyentuh steker listrik dengan tangan basah berbahaya.","Tidak apa-apa menyentuh steker listrik dengan tangan basah."],[1,0,"プラスチックフィルムは、いろが ちがっても、ぜんぶ おなじ こうかが あります。","「ぜんぶ おなじ」→「いろで ちがう」","フィルムは、いろで こうかが ちがいます。","Efek film plastik berbeda tergantung warnanya.","Film plastik memiliki efek yang sama walaupun warnanya berbeda."],[1,0,"はしゅきは、なえを うえる ときに つかいます。","「なえを うえる」→「たねを まく」","はしゅきは、たねを まく きかいです。なえを うえるのは いしょくきです。","Mesin penabur benih digunakan untuk menabur benih.","Mesin penabur benih digunakan saat menanam bibit."],[2,0,"トンネルさいばいの ひふくしざいは、すべて おなじです。","「すべて おなじ」→「いろいろな しゅるいが ある」","トンネルさいばいの ひふくしざいには、いろいろな しゅるいが あります。","Bahan penutup budidaya terowongan ada berbagai jenis.","Bahan penutup budidaya terowongan semuanya sama."],[2,1,"ひかりを とおさない フィルムで マルチングを すると、ざっそうを ふせげます。","","くろい フィルムを よく つかいます。","Mulsa dengan film yang tidak tembus cahaya dapat mencegah gulma.","Mulsa dengan film yang tidak tembus cahaya dapat mencegah gulma."],[3,1,"マルチフィルムの いろで、こうかは かわります。","","いろで こうかが ちがいます。","Efek film mulsa berubah tergantung warnanya.","Efek film mulsa berubah tergantung warnanya."],[3,0,"ふしょくふは、みずや くうきを とおしません。","「とおしません」→「とおします」","ふしょくふは、みずや くうきを とおします。","Kain nirtenun dapat dilewati air dan udara.","Kain nirtenun tidak dapat dilewati air dan udara."],[4,1,"トンネルさいばいの ひふくしざいには、いろいろな しゅるいが あります。","","フィルムや ふしょくふなどが あります。","Bahan penutup budidaya terowongan ada berbagai jenis.","Bahan penutup budidaya terowongan ada berbagai jenis."],[4,1,"はしゅきは、たねを まく ときに つかいます。","","なえを うえるのは いしょくきです。","Mesin penabur benih digunakan untuk menabur benih.","Mesin penabur benih digunakan untuk menabur benih."],[5,1,"かんれいしゃは、ひかりを さえぎり、かぜを とおします。","","ひざしを よわく します。","Kain kasa peneduh menghalangi cahaya dan dapat dilewati udara.","Kain kasa peneduh menghalangi cahaya dan dapat dilewati udara."],[5,0,"ビニールフィルムは、ガラスより おもいです。","「おもい」→「かるい」","ビニールフィルムは、ガラスより かるいです。","Film vinil lebih ringan daripada kaca.","Film vinil lebih berat daripada kaca."],[6,1,"いしょくきは、なえを うえる きかいです。","","たねを まくのは はしゅきです。","Mesin tanam bibit adalah mesin untuk menanam bibit.","Mesin tanam bibit adalah mesin untuk menanam bibit."],[6,1,"さむい じきには、トンネルさいばいで さくもつを あたたかく します。","","ダイコンなどで します。","Pada musim dingin, tanaman dihangatkan dengan budidaya terowongan.","Pada musim dingin, tanaman dihangatkan dengan budidaya terowongan."]];
+const ORDER={"1":[72,109,90,73,2,1,30,32,19,91,49,18,48,50,0,74,51,92,31,108],"2":[77,54,35,4,93,20,94,5,52,3,110,76,34,53,111,75,95,33,55,21],"3":[96,56,112,57,79,6,23,97,98,59,113,7,58,36,38,78,22,8,37,80],"4":[101,114,24,25,60,39,82,61,99,10,100,83,11,63,115,62,81,41,40,9],"5":[44,66,86,104,103,13,43,85,117,14,27,42,102,84,64,65,12,26,67,116],"6":[89,69,88,71,17,68,70,46,45,47,28,16,29,87,118,119,106,107,15,105]};
+const K=[["にほんの のうぎょう","Pertanian Jepang",[["おんたい","あつすぎず、さむすぎない ところ。にほんの ほとんどは おんたい","iklim sedang"],["しき","はる・なつ・あき・ふゆ。にほんには しきが ある","empat musim"],["さんち","やまの ところ。にほんは やまが おおい","daerah pegunungan"],["へいち","たいらな ところ。おおくは まちや いえ","dataran"],["のうち","たや はたけ。にほんは のうちが すくない","lahan pertanian"],["ゆにゅう","がいこくから かう。こむぎは ゆにゅうが おおい","impor"]]],["しょくぶつの からだ・たね","Bagian tanaman dan benih",[["えいようきかん","は・くき・ね（⇔ せいしょくきかん）","organ vegetatif"],["せいしょくきかん","はな・み。しそんを のこす","organ reproduksi"],["こうごうせい","ひかり・みず・にさんかたんそを つかって、でんぷんを つくる","fotosintesis"],["はつが","たねから めが でる。みず・おんど・さんそが ひつよう","perkecambahan"],["しゅし（たね）","ほぞんは ていおん・かんそう","benih"],["めいはつがしゅし","ひかりで めが でやすい たね（ニンジン・レタス）。ふくどは うすく","benih yang butuh cahaya untuk berkecambah"]]],["さくもつ","Jenis tanaman",[["こんさいるい","ねや ちかけいを たべる：ダイコン・ニンジン・ジャガイモ","sayuran umbi / akar"],["ようけいさいるい","はや くきを たべる：キャベツ・ハクサイ・ホウレンソウ","sayuran daun dan batang"],["かさいるい","みを たべる：トマト・ナス・キュウリ・ピーマン","sayuran buah"],["ナスか","トマト・ナス・ピーマン・ジャガイモ","famili terong-terongan"],["ウリか","キュウリ・カボチャ・スイカ・メロン","famili labu-labuan"],["じかまき","はたけに ちょくせつ たねを まく：ダイコン・ニンジン（⇔ いしょく）","tanam benih langsung"],["いしょく","なえを そだててから うえる：タマネギ・キャベツ・トマト・ナス","tanam pindah"],["つぎきなえ","びょうきに つよく、しゅうかくりょうが ふえる","bibit sambung"]]],["さぎょう","Pekerjaan pertanian",[["こううん","つちを ほりかえして やわらかく する。つうきせいが よくなる","membajak tanah"],["うねたて","つちを たかく もって うねを つくる。たねまきの まえ","membuat bedengan"],["はしゅ（たねまき）","たねを まく","menabur benih"],["ふくど","まいた たねに うすく つちを かける","menutup benih dengan tanah"],["いくびょう","なえを そだてる","pembibitan"],["ていしょく","そだてた なえを はたけに うえる","menanam bibit di ladang"],["まびき","なえを えらんで のこし、ほかを ぬく","penjarangan"],["かんすい","さくもつに みずを やる","penyiraman"],["かぶもとかんすい","かぶの もとに みずを やる（⇔ とうじょうかんすい）","menyiram di pangkal tanaman"],["とうじょうかんすい","さくもつの うえから みずを かける","menyiram dari atas"],["せいし","えだを きって、かたちを ととのえる","pemangkasan cabang"],["れんさく","おなじ はたけで おなじ さくもつを つづけて つくる（⇔ りんさく）","menanam tanaman yang sama terus-menerus"],["りんさく","おなじ はたけで ちがう さくもつを じゅんばんに つくる","rotasi tanaman"],["れんさくしょうがい","れんさくで びょうきが ふえ、しゅうかくが へる","gangguan akibat penanaman berulang"]]],["ひりょう・つち","Pupuk dan tanah",[["もとごえ","うえる まえに まく ひりょう（⇔ ついひ）","pupuk dasar"],["ついひ","うえた あと、そだつ とちゅうで やる ひりょう","pupuk susulan"],["ひりょうの 3ようそ","ちっそ・リン・カリウム","nitrogen, fosfor, kalium"],["ゆうきしつひりょう","なたねかす・さかなかす・こっぷん・たいひ（⇔ かがくひりょう）","pupuk organik"],["かがくひりょう","りゅうあん など。こうじょうで つくる","pupuk kimia"],["せっかい","さんせいの つちを なおす（つちの かいりょう）","kapur"]]],["のうやく・あんぜん","Pestisida dan keselamatan kerja",[["じょそうざい","ざっそうを ふせぐ","herbisida"],["さっちゅうざい","がいちゅうを ふせぐ","insektisida"],["さっきんざい","びょうきを ふせぐ","fungisida"],["のうやく","かぜが つよい ときは まかない。おなじ のうやくを つづけると きかなくなる","pestisida"],["ぼうじょい","のうやくを まく ときに きる ふく。マスク・てぶくろ・ゴーグルも つける","baju pelindung"],["けいゆ","トラクターの ねんりょう","solar"],["こんごうゆ","ガソリンと オイルを まぜた もの。くさかりきの ねんりょう","bensin campur oli"],["じゅうゆ・とうゆ","だんぼうきの ねんりょう","minyak berat / minyak tanah"],["てんけん","きかいを しらべる。エンジンを とめて おこなう","pemeriksaan"]]],["しざい・きかい","Bahan dan mesin",[["ひふくしざい","フィルム・ふしょくふ・かんれいしゃ など。しゅるいで こうかが ちがう","bahan penutup"],["マルチング","つちの うえを フィルムや わらで おおう。かんそうや ざっそうを ふせぐ","mulsa"],["トンネルさいばい","うねを トンネルの かたちに おおって、あたたかく する","budidaya terowongan"],["ふしょくふ","みずや くうきを とおす ぬの","kain nirtenun"],["かんれいしゃ","ひかりを さえぎる。かぜは とおす","kain kasa peneduh"],["はしゅき","たねを まく きかい（⇔ いしょくき）","mesin penabur benih"],["いしょくき","なえを うえる きかい","mesin tanam bibit"]]]];
+const J=[["つちの しゅるい","Jenis tanah",[["にぎっても かたまらない つちは どれですか。",["すなつち","じょうど","しょくど"],"Tanah mana yang tidak menggumpal walaupun digenggam?","Tanah berpasir (sudo)."],["みずはけが わるい つちは どれですか。",["しょくど","すなつち","じょうど"],"Tanah mana yang drainasenya buruk?","Tanah liat (shokudo)."],["さくもつに いちばん いい つちは どれですか。",["じょうど","すなつち","しょくど"],"Tanah mana yang paling baik untuk tanaman?","Tanah lempung (jōdo)."],["つちの しゅるいを しらべる とき、どう しますか。",["つちを すこし しめらせて、てで にぎる","つちに ひりょうを まぜる","つちを ひに あてて かわかす"],"Bagaimana cara memeriksa jenis tanah?","Basahi tanah sedikit, lalu genggam dengan tangan."]]],["ひりょう","Pupuk",[["ゆうきしつひりょうは どれですか。",["なたねかす","りゅうあん","にょうそ"],"Mana pupuk organik?","Ampas biji rapa."],["かがくひりょうは どれですか。",["りゅうあん","さかなかす","こっぷん"],"Mana pupuk kimia?","Amonium sulfat."],["こうかが はやい ひりょうは どれですか。",["かがくひりょう","たいひ","なたねかす"],"Pupuk mana yang efeknya cepat?","Pupuk kimia."],["うえた あとに やる ひりょうは なんですか。",["ついひ","もとごえ","せっかい"],"Pupuk yang diberikan setelah tanam disebut apa?","Pupuk susulan (tsuihi)."]]],["たね","Benih",[["ひかりで めが でやすい たねは どれですか。",["ニンジン","ダイコン","トマト"],"Benih mana yang mudah berkecambah dengan cahaya?","Wortel."],["まるくて ちゃいろの たねは どれですか。",["ダイコン","キュウリ","カボチャ"],"Benih mana yang bulat dan cokelat?","Lobak."],["かわを とった たねを なんと いいますか。",["ネーキッドしゅし","コーティングしゅし","シードテープ"],"Benih yang kulitnya dibuang disebut apa?","Benih tanpa kulit (naked seed)."],["テープに たねを はさんだ ものは どれですか。",["シードテープ","コーティングしゅし","ネーキッドしゅし"],"Benih yang dijepit di dalam pita disebut apa?","Pita benih (seed tape)."],["たねは どこに ほぞん しますか。",["ひくい おんどで、かわいた ところ","あたたかくて、しめった ところ","ひが よく あたる ところ"],"Di mana benih disimpan?","Di tempat bersuhu rendah dan kering."]]],["たねを まく","Menabur benih",[["うねに 1れつに たねを まく ほうほうは どれですか。",["すじまき","てんまき","ばらまき"],"Cara menabur benih dalam satu baris di bedengan adalah?","Sujimaki."],["あいだを あけて、1かしょに すうつぶずつ まく ほうほうは どれですか。",["てんまき","すじまき","ばらまき"],"Cara menabur beberapa biji di satu titik dengan jarak adalah?","Tenmaki."],["たねまきの じゅんばんで ただしいのは どれですか。",["あなを つくる → たねを まく → ふくど → みずを やる","たねを まく → あなを つくる → みずを やる → ふくど","みずを やる → ふくど → たねを まく → あなを つくる"],"Urutan menabur benih yang benar adalah?","Buat lubang → tabur benih → tutup dengan tanah → siram."],["ニンジンの たねを まいた あと、つちは どう しますか。",["うすく かける","あつく かける","かけない"],"Setelah menabur benih wortel, bagaimana tanahnya?","Ditutup tipis."]]],["みずを やる","Menyiram",[["かぶの もとに みずを やる ほうほうは どれですか。",["かぶもとかんすい","とうじょうかんすい","うねまかんすい"],"Cara menyiram di pangkal tanaman adalah?","Kabumoto-kansui."],["うえから みずを かける ときに つかう どうぐは どれですか。",["じょうろ（はすくち）","てんてきかんすいチューブ","くわ"],"Alat untuk menyiram dari atas adalah?","Gembor (dengan kepala pancuran)."],["なつに みずを やる じかんは いつですか。",["ごぜんちゅうと ゆうがた","ひるの 12じごろ","よる おそく"],"Kapan menyiram pada musim panas?","Pagi hari dan sore hari."],["みずが おおすぎると、どう なりますか。",["ねが くさる ことが ある","はやく おおきく なる","なにも かわらない"],"Apa yang terjadi jika air terlalu banyak?","Akar bisa membusuk."]]],["ねんりょう","Bahan bakar",[["トラクターの ねんりょうは どれですか。",["けいゆ","こんごうゆ","とうゆ"],"Bahan bakar traktor yang mana?","Solar (keiyu)."],["くさかりきの ねんりょうは どれですか。",["こんごうゆ","けいゆ","じゅうゆ"],"Bahan bakar mesin pemotong rumput yang mana?","Bensin campur oli (kongōyu)."],["だんぼうきの ねんりょうは どれですか。",["とうゆ","こんごうゆ","ガソリン"],"Bahan bakar pemanas ruangan yang mana?","Minyak tanah (tōyu)."],["ガソリンは なにに いれて ほぞん しますか。",["きんぞくの ようき","とうゆようの ポリようき","ペットボトル"],"Bensin disimpan di wadah apa?","Wadah logam."],["ねんりょうを いれる とき、どう しますか。",["エンジンを とめる","エンジンを かけたまま いれる","ひの ちかくで いれる"],"Apa yang dilakukan saat mengisi bahan bakar?","Matikan mesin."]]],["ぼうじょいを きる","Memakai baju pelindung",[["のうやくを まく とき、どの てぶくろを つけますか。",["ゴムてぶくろ","ぐんて","てぶくろは いらない"],"Sarung tangan apa yang dipakai saat menyemprot pestisida?","Sarung tangan karet."],["ズボンの すそは どう しますか。",["ながぐつの うえに かぶせる","ながぐつの なかに いれる","まくって みじかく する"],"Bagaimana ujung celana?","Menutupi bagian atas sepatu bot."],["うわぎの そでは どう しますか。",["てぶくろの うえに かぶせる","てぶくろの なかに いれる","まくって みじかく する"],"Bagaimana lengan baju?","Menutupi sarung tangan."],["めを まもる ものは どれですか。",["ほごメガネ（ゴーグル）","ぼうし","マスク"],"Apa yang melindungi mata?","Kacamata pelindung (goggle)."],["のうやくは どんな ひに まきますか。",["かぜが よわい ひ","かぜが つよい ひ","あめの ひ"],"Pada hari seperti apa pestisida disemprot?","Hari yang anginnya lemah."],["のうやくを まいた あと、なにを しますか。",["どうぐと てを あらって、うがいを する","すぐに ごはんを たべる","ぼうじょいを きたまま やすむ"],"Apa yang dilakukan setelah menyemprot pestisida?","Cuci alat dan tangan, lalu berkumur."]]]];
+
+// ---------- storage ----------
+const KEY = "hatasaku-v1";
+let S = { name: "", att: [], wrong: [], cur: null };
+try { const s = JSON.parse(localStorage.getItem(KEY) || "null"); if (s) S = Object.assign(S, s); } catch (e) {}
+function save() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }
+
+const $app = document.getElementById("app");
+const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+const PASS = 12;
+const RQ = c => c.r || ORDER[c.t];
+const passN = n => Math.ceil(n * 0.6);
+const tname = t => t === 0 ? "ランダム 10もん" : "もぎしけん " + t;
+const fmtDate = iso => { const d = new Date(iso); return d.getFullYear() + "/" + String(d.getMonth() + 1).padStart(2, "0") + "/" + String(d.getDate()).padStart(2, "0"); };
+const qa = i => ({ t: Q[i][0], ans: Q[i][1], q: Q[i][2], diff: Q[i][3], fix: Q[i][4], id: Q[i][5], qid: Q[i][6] });
+
+// ---------- downloads ----------
+let dl = null;
+if (window.claude && window.claude.use) window.claude.use("downloads").then(d => { dl = d; render(); }).catch(() => {});
+
+// ---------- routing ----------
+let view = { r: "home" };
+function go(h) { if (location.hash === "#" + h) route(); else location.hash = h; }
+window.addEventListener("hashchange", route);
+function route() {
+  const h = location.hash.replace(/^#/, "");
+  let m;
+  if ((m = h.match(/^test([1-6])$/))) startTest(+m[1]);
+  else if (h === "random") startTest(0);
+  else if ((m = h.match(/^result-(\d+)$/)) && S.att[+m[1]]) view = { r: "result", k: +m[1], filter: "all", ask: false };
+  else if (h === "cards") view = { r: "cards", cat: -1, i: 0, flip: false, list: null };
+  else if (h === "words") view = { r: "words", ...newWordQuiz() };
+  else if (h === "review") view = { r: "review", list: shuffle(S.wrong), i: 0, pick: null, cleared: 0, startN: S.wrong.length };
+  else if (h === "jitsugi") view = { r: "jmenu" };
+  else if ((m = h.match(/^jitsugi-(\d)$/))) view = { r: "jquiz", ...newJQuiz(+m[1]) };
+  else if (h === "records") view = { r: "records", ask: false };
+  else view = { r: "home" };
+  window.scrollTo(0, 0);
+  render();
+}
+
+// ---------- views ----------
+const TITLES = { home: "はたさく・やさい れんしゅう", cards: "ことばカード", words: "ことばクイズ", review: "まちがえた もんだい", jmenu: "じつぎクイズ", jquiz: "じつぎクイズ", records: "きろく" };
+function render() {
+  const r = view.r;
+  document.getElementById("back").hidden = r === "home";
+  document.getElementById("ttl").textContent = r === "exam" ? tname(view.t) : r === "result" ? "けっか" : TITLES[r] || TITLES.home;
+  $app.innerHTML = ({ home: vHome, exam: vExam, result: vResult, cards: vCards, words: vWords, review: vReview, jmenu: vJMenu, jquiz: vJQuiz, records: vRecords }[r] || vHome)();
+  if (r === "result") drawPreview();
+}
+
+function best(t) { let b = null; S.att.forEach(a => { if (a.t === t && (b === null || a.s > b)) b = a.s; }); return b; }
+
+function vHome() {
+  const tiles = [1, 2, 3, 4, 5, 6].map(t => {
+    const b = best(t), going = S.cur && S.cur.t === t;
+    const s = going ? "とちゅう" : b === null ? "まだ" : "さいこう " + b + " / 20";
+    return `<button class="tile" data-go="test${t}"><span class="l">もぎしけん</span><span class="n">${t}</span><span class="s ${b !== null && b >= PASS && !going ? "pass" : ""}">${s}</span></button>`;
+  }).join("");
+  const nw = S.wrong.length;
+  return `<div class="hero"><p class="big"><ruby>畑作<rt>はたさく</rt></ruby>・<ruby>野菜<rt>やさい</rt></ruby><br><ruby>初級<rt>しょきゅう</rt></ruby><ruby>試験<rt>しけん</rt></ruby> <ruby>練習<rt>れんしゅう</rt></ruby></p>
+    <span class="id">Latihan ujian pertanian (ladang dan sayuran), tingkat dasar</span><div class="furrow"></div></div>
+  <div class="rows" style="margin-top:18px"><button class="row" data-act="newrand"><span class="t">ランダム 10もん<span class="id">10 soal acak dari semua soal</span></span>${S.cur && S.cur.t === 0 ? `<span class="badge" style="background:var(--accent-soft);color:var(--accent)">とちゅう</span>` : ""}<span class="arr">›</span></button></div>
+  <h2><span><ruby>模擬<rt>もぎ</rt></ruby><ruby>試験<rt>しけん</rt></ruby></span> <span class="id">Ujian percobaan · 20 soal</span></h2>
+  <div class="grid6">${tiles}</div>
+  <h2><span><ruby>言葉<rt>ことば</rt></ruby></span> <span class="id">Kosakata</span></h2>
+  <div class="rows">
+    <button class="row" data-go="cards"><span class="t">ことばカード<span class="id">Kartu kosakata · 56 kata</span></span><span class="arr">›</span></button>
+    <button class="row" data-go="words"><span class="t">ことばクイズ<span class="id">Kuis kosakata · 10 soal</span></span><span class="arr">›</span></button>
+  </div>
+  <h2><span><ruby>実技<rt>じつぎ</rt></ruby></span> <span class="id">Ujian praktik</span></h2>
+  <div class="rows"><button class="row" data-go="jitsugi"><span class="t">じつぎクイズ<span class="id">Kuis praktik · 7 bagian</span></span><span class="arr">›</span></button></div>
+  <h2><span><ruby>復習<rt>ふくしゅう</rt></ruby></span> <span class="id">Mengulang</span></h2>
+  <div class="rows">
+    <button class="row" data-go="review"><span class="t">まちがえた もんだい<span class="id">Soal yang salah</span></span>${nw ? `<span class="badge">${nw}</span>` : ""}<span class="arr">›</span></button>
+    <button class="row" data-go="records"><span class="t">きろく<span class="id">Catatan hasil</span></span><span class="arr">›</span></button>
+  </div>`;
+}
+
+// ----- exam -----
+function startTest(t) {
+  if (!S.cur || S.cur.t !== t) {
+    const r = t === 0 ? shuffle(Q.map((_, k) => k)).slice(0, 10) : undefined;
+    S.cur = { t, r, a: Array(t === 0 ? 10 : 20).fill(null), i: 0 }; save();
+  }
+  view = { r: "exam", t, ask: false };
+}
+function vExam() {
+  const c = S.cur, i = c.i, qi = RQ(c)[i], q = qa(qi), N = c.a.length, done = c.a.filter(x => x !== null).length;
+  const sel = c.a[i];
+  const dots = c.a.map((x, k) => `<button class="dot ${x !== null ? "done" : ""} ${k === i ? "now" : ""}" data-act="jump" data-i="${k}" aria-label="${k + 1}">${k + 1}</button>`).join("");
+  const left = N - done;
+  return `<div class="meta"><span>${i + 1} / ${N}</span>
+</div>
+    <div class="bar"><i style="width:${done / N * 100}%"></i></div>
+    <div class="card"><div class="qno">【${i + 1}】</div><p class="qtext">${esc(q.q)}</p></div>
+    <div class="tf">
+      <button class="opt ${sel === 1 ? "sel" : ""}" data-act="ans" data-v="1"><span class="mk">○</span>ただしい</button>
+      <button class="opt ${sel === 0 ? "sel" : ""}" data-act="ans" data-v="0"><span class="mk">×</span>あやまり</button>
+    </div>
+    <div class="nav"><button class="btn" data-act="prev" ${i === 0 ? "disabled" : ""}>← まえ</button>
+      <button class="btn" data-act="next" ${i === N - 1 ? "disabled" : ""}>つぎ →</button></div>
+    <div class="dots">${dots}</div>
+    <div style="margin-top:18px">
+      ${view.ask ? `<div class="confirm"><span>まだ こたえて いない もんだいが ${left}もん あります。さいてん しますか。</span>
+        <div class="bt"><button class="btn pri" data-act="grade" data-force="1">さいてん する</button><button class="btn" data-act="noask">もどる</button></div></div>`
+      : `<button class="btn pri wide" data-act="grade">さいてん する</button>`}
+    </div>`;
+}
+function gradeExam() {
+  const c = S.cur, r = RQ(c);
+  let s = 0;
+  r.forEach((qi, k) => {
+    const ok = c.a[k] === Q[qi][1];
+    if (ok) { s++; S.wrong = S.wrong.filter(x => x !== qi); }
+    else if (!S.wrong.includes(qi)) S.wrong.push(qi);
+  });
+  S.att.push({ t: c.t, r: c.r, d: new Date().toISOString(), s, a: c.a.slice() });
+  S.cur = null; save();
+  go("result-" + (S.att.length - 1));
+}
+function explain(qi) {
+  const q = qa(qi);
+  if (q.ans === 1) return `<div class="ex"><p><span class="k">ポイント</span>${esc(q.fix)}</p></div>`;
+  return `<div class="ex"><p><span class="k">ちがう ところ</span>${esc(q.diff)}</p><p><span class="k">ただしい ぶん</span>${esc(q.fix)}</p></div>`;
+}
+function idBlock(qi) {
+  const q = qa(qi);
+  return `<div class="idbox"><span class="id">${esc(q.qid)}</span>${q.ans === 0 ? `<span class="id">→ ${esc(q.id)}</span>` : ""}</div>`;
+}
+const tfText = v => v === 1 ? "ただしい" : v === 0 ? "あやまり" : "こたえなし";
+
+// ----- result -----
+function vResult() {
+  const a = S.att[view.k], r = RQ(a), N = r.length, P = passN(N), pass = a.s >= P;
+  const items = r.map((qi, k) => {
+    const ok = a.a[k] === Q[qi][1];
+    if (view.filter === "ng" && ok) return "";
+    return `<div class="ritem ${ok ? "" : "ng"}"><div class="mk ${ok ? "ok" : "ng"}">${ok ? "○" : "×"}</div><div class="body">
+      <p class="q"><b>${k + 1}.</b> ${esc(Q[qi][2])}</p>
+      <div class="ans">こたえ <b>${tfText(Q[qi][1])}</b>　／　あなた <b>${tfText(a.a[k])}</b></div>
+      ${explain(qi)}${idBlock(qi)}
+      </div></div>`;
+  }).join("");
+  const ng = N - a.s;
+  return `<div class="score"><div class="num">${a.s}<small> / ${N}</small></div>
+      <div class="side"><span>${tname(a.t)}　<span class="note">${fmtDate(a.d)}</span></span>
+      <span class="chip ${pass ? "ok" : "ng"}">${pass ? "ごうかく ライン クリア" : "ごうかくまで あと " + (P - a.s) + "もん"}</span>
+      <span class="id">Batas lulus (perkiraan): ${P} / ${N}</span></div></div>
+    <div class="actions">
+      <div class="namebox"><label for="nm">なまえ</label><input id="nm" data-act="name" value="${esc(S.name)}" placeholder="なまえを かいて ください" autocomplete="name"></div>
+      ${dl ? `<button class="btn pri wide" data-act="png">がぞうで ほぞん<span class="id" style="color:inherit;opacity:.85">Simpan sebagai gambar</span></button>` : `<p class="note">したの がぞうを ながおし して ほぞん して ください。<span class="id">Tekan lama gambar di bawah untuk menyimpan.</span></p>`}
+      <p class="note" id="dlmsg" role="status"></p>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <button class="btn" ${a.t === 0 ? `data-act="newrand"` : `data-go="test${a.t}"`}>${a.t === 0 ? "べつの 10もん" : "もう いちど"}</button>
+        ${S.wrong.length ? `<button class="btn" data-go="review">まちがえた もんだい (${S.wrong.length})</button>` : ""}
+      </div>
+    </div>
+    <div class="preview" ${dl ? "hidden" : ""}><img id="pv" alt="けっかの がぞう"></div>
+    <h2>こたえと かいせつ</h2>
+    <div class="seg"><button class="${view.filter === "all" ? "on" : ""}" data-act="filter" data-v="all">ぜんぶ</button><button class="${view.filter === "ng" ? "on" : ""}" data-act="filter" data-v="ng">まちがい だけ (${ng})</button></div>
+    <div class="rlist">${items || `<div class="empty">ぜんぶ ただしいです。</div>`}</div>`;
+}
+
+// ----- PNG -----
+async function makePng(a) {
+  const RR = RQ(a), N = RR.length, P = passN(N), W = 1080, H = 640 + Math.ceil(N / 5) * 150 + 110, cv = document.createElement("canvas");
+  cv.width = W; cv.height = H;
+  const g = cv.getContext("2d"), F = '"BIZ UDPGothic", "Hiragino Sans", "Noto Sans JP", sans-serif';
+  const pass = a.s >= P, name = S.name.trim() || "　";
+  const texts = "はたさく・やさい もぎしけん ランダム なまえ ひづけ てんすう ごうかく めやす ライン クリア まで あと もん ○×0123456789/ " + name;
+  try { await Promise.all([document.fonts.load("700 60px " + F, texts), document.fonts.load("700 40px " + F, texts), document.fonts.load("400 30px " + F, texts)]); } catch (e) {}
+  g.fillStyle = "#fff"; g.fillRect(0, 0, W, H);
+  g.fillStyle = "#111"; g.textBaseline = "alphabetic";
+  const M = 80;
+  g.font = "700 46px " + F; g.fillText("はたさく・やさい　" + tname(a.t), M, 130);
+  g.fillRect(M, 160, W - 2 * M, 4);
+  g.font = "400 30px " + F; g.fillStyle = "#555"; g.fillText("なまえ", M, 240); g.fillText("ひづけ", M, 300);
+  g.fillStyle = "#111"; g.font = "700 40px " + F;
+  let nm = name; while (g.measureText(nm).width > W - 2 * M - 140 && nm.length > 1) nm = nm.slice(0, -1);
+  g.fillText(nm, M + 130, 242); g.fillText(fmtDate(a.d), M + 130, 302);
+  g.fillStyle = "#ccc"; g.fillRect(M + 130, 256, W - 2 * M - 130, 2);
+  // score
+  g.fillStyle = "#555"; g.font = "400 30px " + F; g.fillText("てんすう", M, 400);
+  g.fillStyle = "#111"; g.font = "700 150px " + F; g.fillText(String(a.s), M, 560);
+  const sw = g.measureText(String(a.s)).width;
+  g.font = "700 56px " + F; g.fillText("/ " + N, M + sw + 20, 560);
+  g.font = "400 30px " + F; g.fillStyle = "#555"; g.fillText("ごうかく めやす　" + P + " / " + N, 620, 470);
+  g.font = "700 40px " + F; g.fillStyle = "#111";
+  g.fillText(pass ? "ごうかく ライン クリア" : "あと " + (P - a.s) + "もん", 620, 535);
+  // grid 5 x 4
+  const gx = M, gy = 640, cw = (W - 2 * M) / 5, ch = 150;
+  g.strokeStyle = "#111"; g.lineWidth = 2;
+  RR.forEach((qi, k) => {
+    const x = gx + (k % 5) * cw, y = gy + Math.floor(k / 5) * ch, ok = a.a[k] === Q[qi][1];
+    g.strokeRect(x, y, cw, ch);
+    g.fillStyle = "#555"; g.font = "400 28px " + F; g.fillText(String(k + 1), x + 16, y + 40);
+    g.fillStyle = "#111"; g.font = "700 76px " + F; g.textAlign = "center";
+    g.fillText(ok ? "○" : "×", x + cw / 2, y + 112); g.textAlign = "left";
+  });
+  g.fillStyle = "#555"; g.font = "400 26px " + F;
+  g.fillText("○ ただしい　× まちがい", M, gy + Math.ceil(N / 5) * ch + 50);
+  return cv;
+}
+async function drawPreview() {
+  const img = document.getElementById("pv"); if (!img) return;
+  const cv = await makePng(S.att[view.k]); img.src = cv.toDataURL("image/png");
+}
+async function savePng() {
+  const a = S.att[view.k], msg = document.getElementById("dlmsg");
+  if (!S.name.trim()) { msg.textContent = "さきに なまえを かいて ください。"; document.getElementById("nm").focus(); return; }
+  const cv = await makePng(a);
+  const blob = await new Promise(res => cv.toBlob(res, "image/png"));
+  const d = fmtDate(a.d).replace(/\//g, "");
+  try { await dl.save({ filename: `${a.t === 0 ? "ランダム10もん" : "もぎしけん" + a.t}_${S.name.trim()}_${d}.png`, data: blob }); msg.textContent = "ほぞん しました。"; }
+  catch (e) {
+    const c = e && e.code;
+    if (c === "declined") msg.textContent = "";
+    else if (c === "rate_limited") msg.textContent = "すこし まって から もう いちど おして ください。";
+    else { dl = null; render(); }
+  }
+}
+
+// ----- review -----
+function vReview() {
+  const v = view;
+  if (!v.list.length || v.i >= v.list.length) {
+    const left = S.wrong.length;
+    return `<div class="empty"><p style="font-size:1.2rem;font-weight:700;margin:0 0 6px">${v.startN === 0 ? "まちがえた もんだいは ありません。" : "おわりました。"}</p>
+      ${v.startN ? `<p style="margin:0">ただしく こたえた もんだい：${v.cleared} / ${v.startN}</p>` : `<p class="note" style="margin:0">もぎしけんで まちがえた もんだいが ここに でます。<span class="id">Soal yang salah di ujian percobaan muncul di sini.</span></p>`}
+      ${left ? `<p style="margin:10px 0 0"><button class="btn pri" data-go="review">もう いちど (${left})</button></p>` : ""}</div>`;
+  }
+  const qi = v.list[v.i], q = qa(qi), p = v.pick;
+  const cls = val => p === null ? "" : val === q.ans ? "right" : val === p ? "wrong" : "";
+  return `<div class="meta"><span>${v.i + 1} / ${v.list.length}</span><span>もぎしけん ${q.t}</span></div>
+    <div class="bar"><i style="width:${v.i / v.list.length * 100}%"></i></div>
+    <div class="card"><p class="qtext">${esc(q.q)}</p></div>
+    <div class="tf">
+      <button class="opt ${cls(1)}" data-act="rpick" data-v="1" ${p !== null ? "disabled" : ""}><span class="mk">○</span>ただしい</button>
+      <button class="opt ${cls(0)}" data-act="rpick" data-v="0" ${p !== null ? "disabled" : ""}><span class="mk">×</span>あやまり</button>
+    </div>
+    ${p === null ? "" : `<div class="fb"><div class="v ${p === q.ans ? "ok" : "ng"}">${p === q.ans ? "○ せいかい" : "× ざんねん"}　こたえは「${tfText(q.ans)}」</div>
+      ${explain(qi)}${idBlock(qi)}</div>
+      <div class="nav"><span></span><button class="btn pri" data-act="rnext">つぎ →</button></div>`}`;
+}
+
+// ----- word cards -----
+const WORDS = []; K.forEach((c, ci) => c[2].forEach(w => WORDS.push({ ci, w: w[0], d: w[1], id: w[2] })));
+function cardList() { return view.list || WORDS.filter(x => view.cat < 0 || x.ci === view.cat); }
+function vCards() {
+  const L = cardList(), x = L[view.i];
+  const chips = [`<button class="${view.cat < 0 ? "on" : ""}" data-act="cat" data-v="-1">ぜんぶ</button>`]
+    .concat(K.map((c, ci) => `<button class="${view.cat === ci ? "on" : ""}" data-act="cat" data-v="${ci}">${esc(c[0])}</button>`)).join("");
+  return `<div class="chips">${chips}</div>
+    <div class="meta"><span>${view.i + 1} / ${L.length}</span><span class="id" style="display:inline">${esc(K[x.ci][1])}</span></div>
+    <div class="bar"><i style="width:${(view.i + 1) / L.length * 100}%"></i></div>
+    <button class="wcard" data-act="flip">
+      <span class="w">${esc(x.w)}</span>
+      ${view.flip ? `<span class="d">${esc(x.d)}</span><span class="id">${esc(x.id)}</span>` : `<span class="hint">タップして いみを みる<span class="id">Ketuk untuk melihat arti</span></span>`}
+    </button>
+    <div class="nav"><button class="btn" data-act="cprev" ${view.i === 0 ? "disabled" : ""}>← まえ</button>
+      
+      <button class="btn" data-act="cnext" ${view.i >= L.length - 1 ? "disabled" : ""}>つぎ →</button></div>
+    <div style="margin-top:14px;text-align:center"><button class="btn" data-act="cshuf">シャッフル<span class="id" style="display:inline;margin-left:6px">Acak</span></button></div>`;
+}
+
+// ----- word quiz -----
+function newWordQuiz() {
+  const pick = shuffle(WORDS).slice(0, 10);
+  const items = pick.map(x => {
+    const dir = Math.random() < .5 ? "w2d" : "d2w";
+    let pool = shuffle(WORDS.filter(y => y !== x && y.ci === x.ci));
+    if (pool.length < 2) pool = pool.concat(shuffle(WORDS.filter(y => y !== x && y.ci !== x.ci)));
+    return { x, dir, opts: shuffle([x].concat(pool.slice(0, 2))) };
+  });
+  return { items, i: 0, pick: null, score: 0 };
+}
+function vWords() {
+  const v = view;
+  if (v.i >= v.items.length) return `<div class="score"><div class="num">${v.score}<small> / ${v.items.length}</small></div></div>
+    <div class="actions"><button class="btn pri wide" data-go="words">もう いちど</button><button class="btn wide" data-go="cards">ことばカード</button></div>`;
+  const it = v.items[v.i], p = v.pick;
+  const prompt = it.dir === "w2d" ? `<p class="qno">いみは どれですか。</p><p class="qtext" style="font-size:1.7rem;font-weight:700">${esc(it.x.w)}</p>`
+    : `<p class="qno">どの ことばですか。</p><p class="qtext">${esc(it.x.d)}</p>`;
+  const opts = it.opts.map((o, k) => {
+    const c = p === null ? "" : o === it.x ? "right" : k === p ? "wrong" : "";
+    return `<button class="opt ${c}" data-act="wpick" data-v="${k}" ${p !== null ? "disabled" : ""}>${esc(it.dir === "w2d" ? o.d : o.w)}</button>`;
+  }).join("");
+  const ok = p !== null && it.opts[p] === it.x;
+  return `<div class="meta"><span>${v.i + 1} / ${v.items.length}</span></div>
+    <div class="bar"><i style="width:${v.i / v.items.length * 100}%"></i></div>
+    <div class="card">${prompt}</div>
+    <div class="choices">${opts}</div>
+    ${p === null ? "" : `<div class="fb"><div class="v ${ok ? "ok" : "ng"}">${ok ? "○ せいかい" : "× ざんねん"}</div>
+      <div class="ex"><p><b>${esc(it.x.w)}</b>：${esc(it.x.d)}</p></div><div class="idbox"><span class="id">${esc(it.x.id)}</span></div></div>
+      <div class="nav"><span></span><button class="btn pri" data-act="wnext">つぎ →</button></div>`}`;
+}
+
+// ----- jitsugi -----
+function vJMenu() {
+  return `<p class="note" style="margin-top:0">じつぎしけんの 7つの はんい です。<span class="id">7 bagian ujian praktik.</span></p>
+  <div class="rows">${J.map((s, k) => `<button class="row" data-go="jitsugi-${k + 1}"><span class="qno" style="font-size:1.3rem;width:1.4em">${k + 1}</span><span class="t">${esc(s[0])}<span class="id">${esc(s[1])} · ${s[2].length}</span></span><span class="arr">›</span></button>`).join("")}
+  <button class="row" data-go="jitsugi-0"><span class="qno" style="font-size:1.3rem;width:1.4em">★</span><span class="t">ぜんぶ<span class="id">Semua · ${J.reduce((n, s) => n + s[2].length, 0)}</span></span><span class="arr">›</span></button></div>`;
+}
+function newJQuiz(sec) {
+  let qs = [];
+  J.forEach((s, k) => { if (sec === 0 || sec === k + 1) s[2].forEach(q => qs.push({ q: q[0], right: q[1][0], opts: shuffle(q[1]), qid: q[2], aid: q[3], sec: k })); });
+  if (sec === 0) qs = shuffle(qs);
+  return { sec, items: qs, i: 0, pick: null, score: 0 };
+}
+function vJQuiz() {
+  const v = view;
+  if (v.i >= v.items.length) return `<div class="score"><div class="num">${v.score}<small> / ${v.items.length}</small></div></div>
+    <div class="actions"><button class="btn pri wide" data-go="jitsugi-${v.sec}">もう いちど</button><button class="btn wide" data-go="jitsugi">ほかの はんい</button></div>`;
+  const it = v.items[v.i], p = v.pick;
+  const opts = it.opts.map((o, k) => {
+    const c = p === null ? "" : o === it.right ? "right" : k === p ? "wrong" : "";
+    return `<button class="opt ${c}" data-act="jpick" data-v="${k}" ${p !== null ? "disabled" : ""}>${esc(o)}</button>`;
+  }).join("");
+  const ok = p !== null && it.opts[p] === it.right;
+  return `<div class="meta"><span>${v.i + 1} / ${v.items.length}</span><span>${esc(J[it.sec][0])}</span></div>
+    <div class="bar"><i style="width:${v.i / v.items.length * 100}%"></i></div>
+    <div class="card"><p class="qtext">${esc(it.q)}</p></div>
+    <div class="choices">${opts}</div>
+    ${p === null ? "" : `<div class="fb"><div class="v ${ok ? "ok" : "ng"}">${ok ? "○ せいかい" : "× ざんねん"}　こたえ：${esc(it.right)}</div>
+      <div class="idbox"><span class="id">${esc(it.qid)}</span><span class="id">→ ${esc(it.aid)}</span></div></div>
+      <div class="nav"><span></span><button class="btn pri" data-act="jnext">つぎ →</button></div>`}`;
+}
+
+// ----- records -----
+function vRecords() {
+  const rows = S.att.map((a, k) => ({ a, k })).reverse().map(({ a, k }) =>
+    `<div class="rec"><span class="dt">${fmtDate(a.d)}</span><span class="nm">${tname(a.t)}</span>
+      <span class="sc">${a.s} / ${RQ(a).length}</span><span class="chip ${a.s >= passN(RQ(a).length) ? "ok" : "ng"}">${a.s >= passN(RQ(a).length) ? "クリア" : "あと " + (passN(RQ(a).length) - a.s)}</span>
+      <button class="btn" data-go="result-${k}">みる</button></div>`).join("");
+  return `<div class="namebox"><label for="nm">なまえ</label><input id="nm" data-act="name" value="${esc(S.name)}" placeholder="なまえを かいて ください" autocomplete="name"></div>
+    <p class="note">きろくは この スマホ（パソコン）の なかだけに あります。せんせいに みせる ときは、「みる」から がぞうを ほぞん して ください。
+    <span class="id">Catatan hanya tersimpan di perangkat ini. Untuk ditunjukkan ke guru, buka "みる" lalu simpan gambarnya.</span></p>
+    <h2>けっか <span class="id">${S.att.length} kali</span></h2>
+    <div class="rows">${rows || `<div class="empty">まだ きろくが ありません。</div>`}</div>
+    ${S.att.length || S.wrong.length ? `<div style="margin-top:28px">${view.ask
+      ? `<div class="confirm"><span>きろくと まちがえた もんだいを ぜんぶ けします。いいですか。</span><div class="bt"><button class="btn danger" data-act="wipe">けす</button><button class="btn" data-act="noask">やめる</button></div></div>`
+      : `<button class="btn danger" data-act="askwipe">きろくを ぜんぶ けす</button>`}</div>` : ""}`;
+}
+
+// ---------- events ----------
+document.addEventListener("click", e => {
+  const el = e.target.closest("[data-go],[data-act]"); if (!el) return;
+  if (el.dataset.go) { go(el.dataset.go); return; }
+  const act = el.dataset.act, v = view;
+  switch (act) {
+    case "home": go("home"); break;
+    case "newrand": if (view.r !== "home" || !(S.cur && S.cur.t === 0)) { S.cur = null; save(); } go("random"); break;
+    case "ans": {
+      const c = S.cur; c.a[c.i] = +el.dataset.v; v.ask = false; save();
+      const stay = c.i === c.a.length - 1; render();
+      if (!stay) setTimeout(() => { if (view.r === "exam" && S.cur === c) { c.i++; save(); render(); } }, 280);
+      break; }
+    case "prev": S.cur.i--; save(); render(); break;
+    case "next": S.cur.i++; save(); render(); break;
+    case "jump": S.cur.i = +el.dataset.i; save(); render(); break;
+    case "grade": if (!el.dataset.force && S.cur.a.some(x => x === null)) { v.ask = true; render(); } else gradeExam(); break;
+    case "noask": v.ask = false; render(); break;
+    case "filter": v.filter = el.dataset.v; render(); break;
+    case "png": savePng(); break;
+    case "rpick": {
+      const qi = v.list[v.i]; v.pick = +el.dataset.v;
+      if (v.pick === Q[qi][1]) { S.wrong = S.wrong.filter(x => x !== qi); v.cleared++; save(); }
+      render(); break; }
+    case "rnext": v.i++; v.pick = null; render(); window.scrollTo(0, 0); break;
+    case "cat": v.cat = +el.dataset.v; v.i = 0; v.flip = false; v.list = null; render(); break;
+    case "flip": v.flip = !v.flip; render(); break;
+    case "cprev": v.i--; v.flip = false; render(); break;
+    case "cnext": v.i++; v.flip = false; render(); break;
+    case "cshuf": v.list = shuffle(WORDS.filter(x => v.cat < 0 || x.ci === v.cat)); v.i = 0; v.flip = false; render(); break;
+    case "wpick": { v.pick = +el.dataset.v; const it = v.items[v.i]; if (it.opts[v.pick] === it.x) v.score++; render(); break; }
+    case "wnext": v.i++; v.pick = null; render(); window.scrollTo(0, 0); break;
+    case "jpick": { v.pick = +el.dataset.v; const it = v.items[v.i]; if (it.opts[v.pick] === it.right) v.score++; render(); break; }
+    case "jnext": v.i++; v.pick = null; render(); window.scrollTo(0, 0); break;
+    case "askwipe": v.ask = true; render(); break;
+    case "wipe": S.att = []; S.wrong = []; S.cur = null; save(); view.ask = false; render(); break;
+  }
+});
+document.addEventListener("input", e => {
+  if (e.target.dataset.act === "name") { S.name = e.target.value.slice(0, 40); save(); }
+});
+document.addEventListener("change", e => {
+  if (e.target.dataset.act === "name" && view.r === "result") drawPreview();
+});
+route();
+</script>
+</body></html>
