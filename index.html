@@ -184,6 +184,7 @@ const RQ = c => c.r || ORDER[c.t];
 const passN = n => Math.ceil(n * 0.6);
 const tname = t => t === 0 ? "ランダム 10もん" : "もぎしけん " + t;
 const fmtDate = iso => { const d = new Date(iso); return d.getFullYear() + "/" + String(d.getMonth() + 1).padStart(2, "0") + "/" + String(d.getDate()).padStart(2, "0"); };
+const wrongOf = a => RQ(a).filter((qi, k) => a.a[k] !== Q[qi][1]);
 const qa = i => ({ t: Q[i][0], ans: Q[i][1], q: Q[i][2], diff: Q[i][3], fix: Q[i][4], id: Q[i][5], qid: Q[i][6] });
 
 // ---------- downloads ----------
@@ -202,6 +203,7 @@ function route() {
   else if ((m = h.match(/^result-(\d+)$/)) && S.att[+m[1]]) view = { r: "result", k: +m[1], filter: "all", ask: false };
   else if (h === "cards") view = { r: "cards", cat: -1, i: 0, flip: false, list: null };
   else if (h === "words") view = { r: "words", ...newWordQuiz() };
+  else if ((m = h.match(/^retry-(\d+)$/)) && S.att[+m[1]]) { const l = wrongOf(S.att[+m[1]]); view = { r: "review", list: shuffle(l), i: 0, pick: null, cleared: 0, startN: l.length, from: +m[1] }; }
   else if (h === "review") view = { r: "review", list: shuffle(S.wrong), i: 0, pick: null, cleared: 0, startN: S.wrong.length };
   else if (h === "jitsugi") view = { r: "jmenu" };
   else if ((m = h.match(/^jitsugi-(\d)$/))) view = { r: "jquiz", ...newJQuiz(+m[1]) };
@@ -321,11 +323,12 @@ function vResult() {
       <span class="id">Batas lulus (perkiraan): ${P} / ${N}</span></div></div>
     <div class="actions">
       <div class="namebox"><label for="nm">なまえ</label><input id="nm" data-act="name" value="${esc(S.name)}" placeholder="なまえを かいて ください" autocomplete="name"></div>
-      ${dl ? `<button class="btn pri wide" data-act="png">がぞうで ほぞん<span class="id" style="color:inherit;opacity:.85">Simpan sebagai gambar</span></button>` : `<p class="note">したの がぞうを ながおし して ほぞん して ください。<span class="id">Tekan lama gambar di bawah untuk menyimpan.</span></p>`}
+      ${ng ? `<button class="btn pri wide" data-go="retry-${view.k}">まちがえた もんだいを やりなおす (${ng})<span class="id" style="color:inherit;opacity:.85">Ulangi soal yang salah</span></button>` : ""}
+      ${dl ? `<button class="btn ${ng ? "" : "pri"} wide" data-act="png">がぞうで ほぞん<span class="id" style="color:inherit;opacity:.85">Simpan sebagai gambar</span></button>` : `<p class="note">したの がぞうを ながおし して ほぞん して ください。<span class="id">Tekan lama gambar di bawah untuk menyimpan.</span></p>`}
+      ${ng ? `<p class="note" style="margin:0">がぞうには まちがえた もんだいも はいります。せんせいに みせて ください。<span class="id">Gambar juga berisi soal yang salah. Tunjukkan kepada guru.</span></p>` : ""}
       <p class="note" id="dlmsg" role="status"></p>
       <div style="display:flex;gap:10px;flex-wrap:wrap">
         <button class="btn" ${a.t === 0 ? `data-act="newrand"` : `data-go="test${a.t}"`}>${a.t === 0 ? "べつの 10もん" : "もう いちど"}</button>
-        ${S.wrong.length ? `<button class="btn" data-go="review">まちがえた もんだい (${S.wrong.length})</button>` : ""}
       </div>
     </div>
     <div class="preview" ${dl ? "hidden" : ""}><img id="pv" alt="けっかの がぞう"></div>
@@ -336,15 +339,21 @@ function vResult() {
 
 // ----- PNG -----
 async function makePng(a) {
-  const RR = RQ(a), N = RR.length, P = passN(N), W = 1080, H = 640 + Math.ceil(N / 5) * 150 + 110, cv = document.createElement("canvas");
-  cv.width = W; cv.height = H;
+  const RR = RQ(a), N = RR.length, P = passN(N), W = 1080, M = 80, cv = document.createElement("canvas");
   const g = cv.getContext("2d"), F = '"BIZ UDPGothic", "Hiragino Sans", "Noto Sans JP", sans-serif';
   const pass = a.s >= P, name = S.name.trim() || "　";
-  const texts = "はたさく・やさい もぎしけん ランダム なまえ ひづけ てんすう ごうかく めやす ライン クリア まで あと もん ○×0123456789/ " + name;
+  const NG = RR.map((qi, k) => ({ qi, k })).filter(x => a.a[x.k] !== Q[x.qi][1]);
+  const texts = "はたさく・やさい もぎしけん ランダム なまえ ひづけ てんすう ごうかく めやす ライン クリア まで あと もん まちがえた こたえ あなた ただしい あやまり なし ：（）.○×0123456789/ " + name + NG.map(x => Q[x.qi][2]).join("");
   try { await Promise.all([document.fonts.load("700 60px " + F, texts), document.fonts.load("700 40px " + F, texts), document.fonts.load("400 30px " + F, texts)]); } catch (e) {}
-  g.fillStyle = "#fff"; g.fillRect(0, 0, W, H);
+  // まちがえた もんだい の レイアウト
+  const QF = "400 34px " + F, QL = 50, TW = W - 2 * M - 60;
+  g.font = QF;
+  const blocks = NG.map(x => ({ ...x, lines: wrapText(g, Q[x.qi][2], TW) }));
+  const gridEnd = 640 + Math.ceil(N / 5) * 150 + 110;
+  const listH = NG.length ? 110 + blocks.reduce((h, b) => h + b.lines.length * QL + 70, 0) : 0;
+  cv.width = W; cv.height = gridEnd + listH;
+  g.fillStyle = "#fff"; g.fillRect(0, 0, W, cv.height);
   g.fillStyle = "#111"; g.textBaseline = "alphabetic";
-  const M = 80;
   g.font = "700 46px " + F; g.fillText("はたさく・やさい　" + tname(a.t), M, 130);
   g.fillRect(M, 160, W - 2 * M, 4);
   g.font = "400 30px " + F; g.fillStyle = "#555"; g.fillText("なまえ", M, 240); g.fillText("ひづけ", M, 300);
@@ -372,7 +381,33 @@ async function makePng(a) {
   });
   g.fillStyle = "#555"; g.font = "400 26px " + F;
   g.fillText("○ ただしい　× まちがい", M, gy + Math.ceil(N / 5) * ch + 50);
+  if (NG.length) {
+    let y = gridEnd;
+    g.fillStyle = "#111"; g.fillRect(M, y, W - 2 * M, 4);
+    g.font = "700 40px " + F; g.fillText("まちがえた もんだい（" + NG.length + "もん）", M, y + 70);
+    y += 110;
+    blocks.forEach((b, j) => {
+      g.fillStyle = "#111"; g.font = "700 34px " + F; g.fillText((b.k + 1) + ".", M, y + 36);
+      g.font = QF; b.lines.forEach((ln, li) => g.fillText(ln, M + 60, y + 36 + li * QL));
+      y += b.lines.length * QL;
+      g.font = "400 28px " + F; g.fillStyle = "#555";
+      g.fillText("こたえ：" + tfText(Q[b.qi][1]) + "　　あなた：" + tfText(a.a[b.k]), M + 60, y + 28);
+      y += 70;
+      if (j < blocks.length - 1) { g.fillStyle = "#ddd"; g.fillRect(M, y - 20, W - 2 * M, 1); }
+    });
+  }
   return cv;
+}
+function wrapText(g, s, w) {
+  const tok = s.match(/[^ 、。]+[ 、。]*|[ 、。]+/g) || [s], out = [];
+  let cur = "";
+  tok.forEach(t => {
+    if (g.measureText(cur + t).width <= w) { cur += t; return; }
+    if (cur) { out.push(cur.trimEnd()); cur = ""; }
+    for (const ch of t) { if (g.measureText(cur + ch).width > w && cur) { out.push(cur); cur = ""; } cur += ch; }
+  });
+  if (cur.trim()) out.push(cur.trimEnd());
+  return out;
 }
 async function drawPreview() {
   const img = document.getElementById("pv"); if (!img) return;
@@ -398,6 +433,9 @@ function vReview() {
   const v = view;
   if (!v.list.length || v.i >= v.list.length) {
     const left = S.wrong.length;
+    if (v.from !== undefined) return `<div class="empty"><p style="font-size:1.2rem;font-weight:700;margin:0 0 6px">おわりました。</p>
+      <p style="margin:0">ただしく こたえた もんだい：${v.cleared} / ${v.startN}</p>
+      <p style="margin:10px 0 0;display:flex;gap:10px;justify-content:center;flex-wrap:wrap"><button class="btn pri" data-go="retry-${v.from}">もう いちど</button><button class="btn" data-go="result-${v.from}">けっかに もどる</button></p></div>`;
     return `<div class="empty"><p style="font-size:1.2rem;font-weight:700;margin:0 0 6px">${v.startN === 0 ? "まちがえた もんだいは ありません。" : "おわりました。"}</p>
       ${v.startN ? `<p style="margin:0">ただしく こたえた もんだい：${v.cleared} / ${v.startN}</p>` : `<p class="note" style="margin:0">もぎしけんで まちがえた もんだいが ここに でます。<span class="id">Soal yang salah di ujian percobaan muncul di sini.</span></p>`}
       ${left ? `<p style="margin:10px 0 0"><button class="btn pri" data-go="review">もう いちど (${left})</button></p>` : ""}</div>`;
